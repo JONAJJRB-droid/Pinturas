@@ -49,20 +49,21 @@ body {
     box-shadow: 0 15px 30px -10px rgba(37, 211, 102, 0.6);
 }
 
-.neon-green {
-    color: #00FF88;
-    text-shadow: 0 0 5px #00FF8840;
+/* --- COLORES DINÁMICOS (usando variables de theme.js) --- */
+.neon-primary {
+    color: var(--color-primary);
+    text-shadow: 0 0 5px var(--color-primary);
 }
 
 .badge-neon {
-    background: #00FF88;
+    background: var(--color-primary);
     color: #000;
     font-weight: 800;
-    box-shadow: 0 0 8px #00FF88;
+    box-shadow: 0 0 8px var(--color-primary);
 }
 
 .gradient-neon {
-    background: linear-gradient(135deg, #00FF88 0%, #00E5FF 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
 }
 
 .bg-glow-orb {
@@ -72,53 +73,31 @@ body {
     opacity: 0.15;
     pointer-events: none;
     z-index: 0;
+    background-color: var(--color-glow);
 }
 
-#cartItems::-webkit-scrollbar {
-    width: 4px;
+/* --- VERDE NEÓN FIJO (para textos que siempre deben ser verdes) --- */
+.text-neon-green {
+    color: #00FF88;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
 }
 
-#cartItems::-webkit-scrollbar-track {
-    background: transparent;
+.text-neon-green-bold {
+    color: #00FF88;
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.7);
+    font-weight: 600;
 }
 
-#cartItems::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.toast-animate {
-    animation: toastFade 2.5s ease forwards;
-}
-
-@keyframes toastFade {
-    0% {
-        opacity: 0;
-        transform: translateY(1rem);
-    }
-    15% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    85% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(1rem);
-    }
-}
-
+/* Botón agregar */
 .btn-agregar {
     background: rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
 }
 
 .btn-agregar:hover {
-    background: #00FF88 !important;
+    background: var(--color-primary) !important;
     color: #000 !important;
-    box-shadow: 0 0 12px #00FF88aa;
+    box-shadow: 0 0 12px var(--color-primary);
     transform: scale(1.02);
 }
 
@@ -135,4 +114,53 @@ body {
     vertical-align: middle;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar */
+#cartItems::-webkit-scrollbar {
+    width: 4px;
+}
+#cartItems::-webkit-scrollbar-track {
+    background: transparent;
+}
+#cartItems::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.toast-animate {
+    animation: toastFade 2.5s ease forwards;
+}
+
+@keyframes toastFade {
+    0% { opacity: 0; transform: translateY(1rem); }
+    15% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(1rem); }
+}
+
+/* ===== MODAL DE CONFIRMACIÓN ===== */
+#clearModal .modal-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+#clearModal .modal-card.scale-95 {
+    transform: scale(0.95);
+}
+
+#clearModal .modal-card.scale-100 {
+    transform: scale(1);
+}
+
+#clearModal button:active {
+    transform: scale(0.96);
+}
+
+/* Botón "Sí, vaciar" con efecto neón */
+#clearModal .bg-\[var\(--color-primary\)\] {
+    box-shadow: 0 0 20px var(--color-primary);
+}
+
+#clearModal .bg-\[var\(--color-primary\)\]:hover {
+    box-shadow: 0 0 30px var(--color-secondary);
 }
