@@ -106,7 +106,7 @@ function escapeHtml(str) {
 
 function showToast(msg) {
     let toast = document.createElement("div");
-    toast.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/90 border border-neon-green text-neon-green text-[11px] font-bold tracking-widest uppercase px-6 py-3 rounded-full z-[100] shadow-2xl toast-animate";
+    toast.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/90 border border-neon-primary text-neon-primary text-[11px] font-bold tracking-widest uppercase px-6 py-3 rounded-full z-[100] shadow-2xl toast-animate";
     toast.innerText = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2500);
@@ -179,15 +179,32 @@ function changeQty(productId, delta) {
     updateCartUI();
 }
 
-function clearCart() {
-    if (confirm("¿Vaciar todo el carrito?")) {
-        cart = [];
-        saveCart();
-        updateCartUI();
-        showToast("Carrito vaciado");
-    }
+// ==================== MODAL DE CONFIRMACIÓN ====================
+function openClearModal() {
+    const modal = document.getElementById('clearModal');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.querySelector('.modal-card').classList.remove('scale-95');
+    modal.querySelector('.modal-card').classList.add('scale-100');
+    document.body.style.overflow = 'hidden';
 }
 
+function closeClearModal() {
+    const modal = document.getElementById('clearModal');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.querySelector('.modal-card').classList.remove('scale-100');
+    modal.querySelector('.modal-card').classList.add('scale-95');
+    document.body.style.overflow = '';
+}
+
+function confirmClearCart() {
+    closeClearModal();
+    cart = [];
+    saveCart();
+    updateCartUI();
+    showToast('Carrito vaciado');
+}
+
+// ==================== ACTUALIZAR UI DEL CARRITO ====================
 function updateCartUI() {
     let totalEnvases = cart.reduce((s, i) => s + i.cantidad, 0);
     let totalPaquetesDe3 = totalEnvases / 3;
@@ -201,7 +218,7 @@ function updateCartUI() {
             badge.classList.add("hidden");
         }
     }
-    document.getElementById("cartCount").innerHTML = `(${totalEnvases} envases)`;
+    document.getElementById("cartCount").innerHTML = `(<span class="text-neon-green font-bold text-base">${totalEnvases} envases</span>)`;
     
     let emptyDiv = document.getElementById("cartEmpty"),
         itemsDiv = document.getElementById("cartItems"),
@@ -215,8 +232,15 @@ function updateCartUI() {
     emptyDiv.classList.add("hidden");
     itemsDiv.classList.remove("hidden");
     footer.classList.remove("hidden");
-    
-    itemsDiv.innerHTML = cart.map(item => {
+
+    // Botón "Vaciar Carrito" dentro de la lista (con el mismo tamaño que "Envase 60ml")
+    let itemsHtml = `<div class="flex justify-end mb-4">
+        <button onclick="openClearModal()" class="flex items-center gap-2 text-neon-green text-xs md:text-sm font-medium hover:underline transition-colors">
+            <i data-lucide="trash-2" class="w-4 h-4"></i> Vaciar Carrito
+        </button>
+    </div>`;
+
+    itemsHtml += cart.map(item => {
         let envases = item.cantidad;
         let cantidadTexto = formatCantidadConPaquetes(envases);
         let paquetesDe3 = envases / 3;
@@ -225,14 +249,15 @@ function updateCartUI() {
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="font-semibold text-white tracking-tight leading-tight mb-1">${colorCircle}${escapeHtml(item.nombre)}</p>
-                            <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-medium">${item.presentacion}</p>
+                            <p class="text-neon-green text-xs md:text-sm font-medium">${item.presentacion}</p>
                         </div>
-                        <button onclick="changeQty('${item.productId}', -${item.cantidad})" class="text-zinc-600 hover:text-neon-green transition-colors">
+                        <button onclick="changeQty('${item.productId}', -${item.cantidad})" class="text-zinc-600 hover:text-neon-primary transition-colors">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </div>
                     <div class="flex items-center justify-between">
-                        <div class="text-[10px] font-bold neon-green uppercase tracking-tighter">
+                        <!-- Cantidad con el mismo tamaño que "Envase 60ml" -->
+                        <div class="text-xs md:text-sm font-bold neon-primary uppercase tracking-tighter">
                             ${cantidadTexto}
                         </div>
                         <div class="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/5">
@@ -243,6 +268,8 @@ function updateCartUI() {
                     </div>
                 </div>`;
     }).join("");
+
+    itemsDiv.innerHTML = itemsHtml;
     
     // Resumen por marca con formato de paquetes
     let summaryMap = new Map();
@@ -260,7 +287,7 @@ function updateCartUI() {
         let html = "";
         for (let [marca, val] of summaryMap.entries()) {
             let totalTexto = formatCantidadConPaquetes(val.envases);
-            html += `<span class="bg-green-500/10 text-neon-green text-[9px] font-bold px-3 py-1.5 rounded-full border border-green-500/30 uppercase tracking-wider">${marca}: ${totalTexto}</span>`;
+            html += `<span class="bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-[9px] font-bold px-3 py-1.5 rounded-full border border-[var(--color-primary)]/30 uppercase tracking-wider">${marca}: ${totalTexto}</span>`;
         }
         summaryDiv.innerHTML = html;
     }
@@ -304,11 +331,11 @@ function renderCategories() {
     let cats = getCategories();
     let grid = document.getElementById("categoryGrid");
     grid.innerHTML = cats.map(cat => `<div class="glass-card rounded-3xl p-8 cursor-pointer flex flex-col items-center text-center group" onclick="openCategory('${cat.id}')">
-                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-green-500/10 transition-all duration-500">
-                    <i data-lucide="droplet" class="w-8 h-8 text-white/40 group-hover:text-neon-green transition-colors"></i>
+                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[var(--color-primary)]/10 transition-all duration-500">
+                    <i data-lucide="droplet" class="w-8 h-8 text-white/40 group-hover:text-[var(--color-primary)] transition-colors"></i>
                 </div>
                 <h3 class="text-xl font-medium tracking-tight text-white mb-2">${cat.nombre}</h3>
-                <p class="text-zinc-500 text-xs uppercase tracking-widest font-bold group-hover:text-neon-green transition-colors">Ver colores</p>
+                <p class="text-zinc-500 text-xs uppercase tracking-widest font-bold group-hover:text-[var(--color-primary)] transition-colors">Ver colores</p>
             </div>`).join("");
     lucide.createIcons();
 }
@@ -319,13 +346,17 @@ function openCategory(catId) {
     document.getElementById("categoriesView").style.display = "none";
     document.getElementById("productsView").style.display = "block";
     let prods = products.filter(p => p.categoria === catNombre);
-    let html = `<div class="mb-10"><h2 class="text-4xl font-light tracking-tight">${catNombre} <span class="font-bold neon-green">Pinturas al Frío</span></h2><p class="text-zinc-400 text-sm mt-1">Venta por múltiplos de 3 envases · 12 und = 1 paquete</p></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+    let html = `<div class="mb-10">
+                    <h2 class="text-4xl font-light tracking-tight">${catNombre} <span class="font-bold text-neon-green">Pinturas al Frío</span></h2>
+                    <p class="text-neon-green text-sm md:text-base font-medium mt-1">Venta por múltiplos de 3 envases · 12 und = 1 paquete</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
     prods.forEach(p => {
         let colorCircle = `<span class="color-circle" style="background: ${p.hex};"></span>`;
         html += `<div class="glass-card p-6 rounded-3xl flex justify-between items-center group">
                             <div>
-                                <h3 class="font-bold text-white group-hover:text-neon-green transition-colors">${colorCircle}${escapeHtml(p.nombre)}</h3>
-                                <p class="text-[10px] text-zinc-500 uppercase tracking-widest mt-1 font-bold">Envase 60ml · Agregar 3 und</p>
+                                <h3 class="font-bold text-white group-hover:text-[var(--color-primary)] transition-colors">${colorCircle}${escapeHtml(p.nombre)}</h3>
+                                <p class="text-neon-green text-xs md:text-sm font-medium mt-1">Envase 60ml · Agregar 3 und</p>
                             </div>
                             <button onclick="addToCartById('${p.id}')" class="btn-agregar px-6 py-2.5 rounded-2xl text-[10px] font-bold uppercase tracking-widest">AGREGAR</button>
                         </div>`;
