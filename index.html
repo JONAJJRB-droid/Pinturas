@@ -13,36 +13,32 @@
 </head>
 <body class="bg-black text-white selection:bg-[var(--color-primary)]/30">
 
-    <!-- Glow orbs -->
-    <div class="bg-glow-orb w-[600px] h-[600px] -top-40 -left-40"></div>
-    <div class="bg-glow-orb w-[700px] h-[700px] bottom-0 right-0"></div>
+    <!-- ====== ORBES DE FONDO (estilo Foami) ====== -->
+    <div class="bg-glow-orb w-[600px] h-[600px] -top-40 -left-40" style="background: rgba(255, 165, 0, 0.25); filter: blur(90px);"></div>
+    <div class="bg-glow-orb w-[700px] h-[700px] bottom-0 right-0" style="background: rgba(139, 92, 246, 0.2); filter: blur(90px);"></div>
+    <div class="bg-glow-orb w-[500px] h-[500px] top-1/3 left-1/2 -translate-x-1/2" style="background: rgba(59, 130, 246, 0.15); filter: blur(90px);"></div>
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- ==================== HEADER CENTRADO (estilo JJRB47) ==================== -->
     <header class="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-2xl border-b border-white/5">
-        <div class="flex justify-between items-center px-6 md:px-12 h-20 max-w-7xl mx-auto">
-            <div class="flex items-center gap-4">
-                <!-- Logo -->
-                <img src="https://raw.githubusercontent.com/JJRB47/JJRB47/main/assets/logo-jrb.png" 
-                     alt="Logo Jonathan Rangel" 
-                     class="w-10 h-10 rounded-xl object-contain bg-white/5 p-1.5 border border-white/10"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="w-10 h-10 rounded-xl gradient-neon flex items-center justify-center text-xs font-bold text-black shadow-lg" style="display:none;">JR</div>
-                
-                <!-- Textos del header -->
-                <div class="flex flex-col">
-                    <!-- Nombre: 24px, negrita, tracking 2px -->
-                    <div class="text-2xl font-bold tracking-[2px] text-white/90 uppercase leading-none mb-1">
-                        JONATHAN JOSE RANGEL BETANCOURT
-                    </div>
-                    <!-- Subtítulo: más grande y verde neón -->
-                    <div class="text-base md:text-xl text-neon-green font-bold tracking-wider uppercase">
-                        Inversiones Guicar · Pinturas al Frío
-                    </div>
-                </div>
-            </div>
+        <div class="flex flex-col items-center justify-center py-4 px-6 relative max-w-7xl mx-auto">
+            <!-- Logo centrado -->
+            <img src="https://raw.githubusercontent.com/JJRB47/JJRB47/main/assets/logo-jrb.png" 
+                 alt="Logo Jonathan Rangel" 
+                 class="w-14 h-14 rounded-full object-contain bg-white/5 p-1.5 border-2 border-white/20"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="w-14 h-14 rounded-full gradient-neon flex items-center justify-center text-xs font-bold text-black shadow-lg" style="display:none;">JR</div>
 
-            <!-- Botones de acción -->
-            <div class="flex items-center gap-3">
+            <!-- Nombre centrado -->
+            <h1 class="text-2xl font-bold tracking-[2px] text-white/90 uppercase leading-tight mt-2">
+                JONATHAN JOSE RANGEL BETANCOURT
+            </h1>
+            <!-- Subtítulo centrado en verde neón -->
+            <span class="text-base md:text-xl text-neon-green font-bold tracking-wider uppercase">
+                Inversiones Guicar · Pinturas al Frío
+            </span>
+
+            <!-- Botones de acción (esquina superior derecha) -->
+            <div class="absolute right-4 top-4 flex items-center gap-3">
                 <button onclick="goToMainSite()" class="group p-3 rounded-2xl glass hover:bg-white/10 transition-all duration-300" aria-label="Ir a página principal">
                     <i data-lucide="home" class="w-5 h-5 text-white/80 group-hover:scale-110 transition-transform"></i>
                 </button>
@@ -54,11 +50,11 @@
         </div>
     </header>
 
-    <!-- ==================== MAIN ==================== -->
-    <main class="relative z-10 pt-32 pb-28 px-6 max-w-7xl mx-auto">
+    <!-- ==================== MAIN (con más padding superior y botones centrados) ==================== -->
+    <main class="relative z-10 pt-40 pb-28 px-6 max-w-7xl mx-auto">
         <!-- Vista de categorías -->
         <div id="categoriesView">
-            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-8"></div>
+            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto"></div>
         </div>
 
         <!-- Vista de productos -->
@@ -114,14 +110,11 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL DE CONFIRMACIÓN PERSONALIZADO ==================== -->
+    <!-- ==================== MODAL DE CONFIRMACIÓN ==================== -->
     <div id="clearModal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
-        <!-- Fondo oscuro con blur -->
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeClearModal()"></div>
-        <!-- Tarjeta del modal -->
         <div class="relative bg-zinc-900/90 border border-[var(--color-primary)]/30 rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl shadow-[var(--color-primary)]/10 transform scale-95 transition-transform duration-300 modal-card">
             <div class="text-center">
-                <!-- Icono de advertencia -->
                 <div class="w-16 h-16 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-5">
                     <i data-lucide="alert-triangle" class="w-8 h-8 text-[var(--color-primary)]"></i>
                 </div>
