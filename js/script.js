@@ -106,7 +106,7 @@ function escapeHtml(str) {
 
 function showToast(msg) {
     let toast = document.createElement("div");
-    toast.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/90 border border-neon-primary text-neon-primary text-[11px] font-bold tracking-widest uppercase px-6 py-3 rounded-full z-[100] shadow-2xl toast-animate";
+    toast.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-black/90 border border-[var(--color-primary)] text-[var(--color-primary)] text-[11px] font-bold tracking-widest uppercase px-6 py-3 rounded-full z-[100] shadow-2xl toast-animate";
     toast.innerText = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2500);
@@ -128,7 +128,7 @@ function formatCantidadConPaquetes(envases) {
     let resto = envases % 12;
     let partes = [];
     if (paquetes12 > 0) {
-        partes.push(`${paquetes12} paquete${paquetes12 !== 1 ? 's' : ''} (${paquetes12 * 12} und)`);
+        partes.push(`${paquetes12} paq. (${paquetes12 * 12} und)`);
     }
     if (resto > 0) {
         partes.push(`${resto} und`);
@@ -177,6 +177,13 @@ function changeQty(productId, delta) {
     }
     saveCart();
     updateCartUI();
+}
+
+function removeItem(productId) {
+    cart = cart.filter(i => i.productId !== productId);
+    saveCart();
+    updateCartUI();
+    showToast('Producto eliminado');
 }
 
 // ==================== MODAL DE CONFIRMACIÓN ====================
@@ -233,7 +240,7 @@ function updateCartUI() {
     itemsDiv.classList.remove("hidden");
     footer.classList.remove("hidden");
 
-    // Botón "Vaciar Carrito" dentro de la lista (con el mismo tamaño que "Envase 60ml")
+    // Botón "Vaciar Carrito" dentro de la lista (en verde)
     let itemsHtml = `<div class="flex justify-end mb-4">
         <button onclick="openClearModal()" class="flex items-center gap-2 text-neon-green text-xs md:text-sm font-medium hover:underline transition-colors">
             <i data-lucide="trash-2" class="w-4 h-4"></i> Vaciar Carrito
@@ -251,18 +258,17 @@ function updateCartUI() {
                             <p class="font-semibold text-white tracking-tight leading-tight mb-1">${colorCircle}${escapeHtml(item.nombre)}</p>
                             <p class="text-neon-green text-xs md:text-sm font-medium">${item.presentacion}</p>
                         </div>
-                        <button onclick="changeQty('${item.productId}', -${item.cantidad})" class="text-zinc-600 hover:text-neon-primary transition-colors">
+                        <button onclick="removeItem('${item.productId}')" class="text-zinc-600 hover:text-[var(--color-primary)] transition-colors">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </div>
                     <div class="flex items-center justify-between">
-                        <!-- Cantidad con el mismo tamaño que "Envase 60ml" -->
-                        <div class="text-xs md:text-sm font-bold neon-primary uppercase tracking-tighter">
+                        <div class="text-xs md:text-sm font-bold text-[var(--color-primary)] uppercase tracking-tighter">
                             ${cantidadTexto}
                         </div>
                         <div class="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/5">
                             <button onclick="changeQty('${item.productId}', -1)" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10"><i data-lucide="minus" class="w-4 h-4"></i></button>
-                            <span class="w-8 text-center text-sm font-bold text-white">${paquetesDe3}</span>
+                            <span class="w-10 text-center text-sm font-bold text-white">${paquetesDe3} ×3</span>
                             <button onclick="changeQty('${item.productId}', 1)" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10"><i data-lucide="plus" class="w-4 h-4"></i></button>
                         </div>
                     </div>
@@ -271,7 +277,7 @@ function updateCartUI() {
 
     itemsDiv.innerHTML = itemsHtml;
     
-    // Resumen por marca con formato de paquetes
+    // Resumen por marca (con color dinámico, no verde)
     let summaryMap = new Map();
     cart.forEach(item => {
         let marca = item.categoria;
@@ -286,8 +292,12 @@ function updateCartUI() {
     if (summaryDiv) {
         let html = "";
         for (let [marca, val] of summaryMap.entries()) {
-            let totalTexto = formatCantidadConPaquetes(val.envases);
-            html += `<span class="bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-[9px] font-bold px-3 py-1.5 rounded-full border border-[var(--color-primary)]/30 uppercase tracking-wider">${marca}: ${totalTexto}</span>`;
+            let totalEnv = val.envases;
+            let paq3 = totalEnv / 3;
+            let textoPaq12 = formatCantidadConPaquetes(totalEnv);
+            html += `<span class="bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-[10px] font-bold px-3 py-1.5 rounded-full border border-[var(--color-primary)]/30 uppercase tracking-wider">
+                        ${marca}: ${totalEnv} envases (${paq3} paq. de 3) → ${textoPaq12}
+                    </span>`;
         }
         summaryDiv.innerHTML = html;
     }
