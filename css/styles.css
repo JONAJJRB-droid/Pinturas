@@ -76,14 +76,14 @@ body {
     background-color: var(--color-glow);
 }
 
-/* --- VERDE NEÓN FIJO (para textos que siempre deben ser verdes) --- */
+/* --- VERDE NEÓN FIJO (siempre igual) --- */
 .text-neon-green {
-    color: #00FF88;
+    color: #00FF88 !important;
     text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
 }
 
 .text-neon-green-bold {
-    color: #00FF88;
+    color: #00FF88 !important;
     text-shadow: 0 0 12px rgba(0, 255, 136, 0.7);
     font-weight: 600;
 }
@@ -139,28 +139,22 @@ body {
     100% { opacity: 0; transform: translateY(1rem); }
 }
 
-/* ===== MODAL DE CONFIRMACIÓN ===== */
+/* Modal de confirmación */
 #clearModal .modal-card {
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
-
 #clearModal .modal-card.scale-95 {
     transform: scale(0.95);
 }
-
 #clearModal .modal-card.scale-100 {
     transform: scale(1);
 }
-
 #clearModal button:active {
     transform: scale(0.96);
 }
-
-/* Botón "Sí, vaciar" con efecto neón */
 #clearModal .bg-\[var\(--color-primary\)\] {
     box-shadow: 0 0 20px var(--color-primary);
 }
-
 #clearModal .bg-\[var\(--color-primary\)\]:hover {
     box-shadow: 0 0 30px var(--color-secondary);
 }
