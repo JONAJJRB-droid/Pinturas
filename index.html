@@ -17,80 +17,84 @@
     <div class="bg-glow-orb w-[700px] h-[700px] bottom-0 right-0" style="background: rgba(139, 92, 246, 0.2); filter: blur(90px);"></div>
     <div class="bg-glow-orb w-[500px] h-[500px] top-1/3 left-1/2 -translate-x-1/2" style="background: rgba(59, 130, 246, 0.15); filter: blur(90px);"></div>
 
-    <!-- HEADER -->
+    <!-- HEADER MEJORADO PARA MÓVIL -->
     <header class="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-2xl border-b border-white/5">
-        <div class="flex flex-col items-center justify-center py-4 px-6 relative max-w-7xl mx-auto">
+        <div class="flex flex-col items-center justify-center py-2 md:py-4 px-4 md:px-6 relative max-w-7xl mx-auto">
+            <!-- Logo más pequeño en móvil -->
             <img src="https://raw.githubusercontent.com/JJRB47/JJRB47/main/assets/logo-jrb.png" 
                  alt="Logo Jonathan Rangel" 
-                 class="w-14 h-14 rounded-full object-contain bg-white/5 p-1.5 border-2 border-white/20"
+                 class="w-10 h-10 md:w-14 md:h-14 rounded-full object-contain bg-white/5 p-1 border-2 border-white/20"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="w-14 h-14 rounded-full gradient-neon flex items-center justify-center text-xs font-bold text-black shadow-lg" style="display:none;">JR</div>
+            <div class="w-10 h-10 md:w-14 md:h-14 rounded-full gradient-neon flex items-center justify-center text-[8px] md:text-xs font-bold text-black shadow-lg" style="display:none;">JR</div>
 
-            <h1 class="text-2xl font-bold tracking-[2px] text-white/90 uppercase leading-tight mt-2">
+            <!-- Título con tamaño responsivo -->
+            <h1 class="text-sm sm:text-base md:text-2xl font-bold tracking-[1px] md:tracking-[2px] text-white/90 uppercase leading-tight mt-2 text-center">
                 JONATHAN JOSE RANGEL BETANCOURT
             </h1>
-            <!-- Subtítulo con verde fijo -->
-            <span class="text-base md:text-xl text-neon-green font-bold tracking-wider uppercase">
+
+            <!-- Subtítulo con tamaño responsivo -->
+            <span class="text-[10px] sm:text-xs md:text-xl text-neon-green font-bold tracking-wider uppercase text-center">
                 Inversiones Guicar · Pinturas al Frío
             </span>
 
-            <div class="absolute right-4 top-4 flex items-center gap-3">
-                <button onclick="goToMainSite()" class="group p-3 rounded-2xl glass hover:bg-white/10 transition-all duration-300" aria-label="Ir a página principal">
-                    <i data-lucide="home" class="w-5 h-5 text-white/80 group-hover:scale-110 transition-transform"></i>
+            <!-- Botones de acción (esquina superior derecha) -->
+            <div class="absolute right-2 md:right-4 top-2 md:top-4 flex items-center gap-2 md:gap-3">
+                <button onclick="goToMainSite()" class="group p-2 md:p-3 rounded-2xl glass hover:bg-white/10 transition-all duration-300" aria-label="Ir a página principal">
+                    <i data-lucide="home" class="w-4 h-4 md:w-5 md:h-5 text-white/80 group-hover:scale-110 transition-transform"></i>
                 </button>
-                <button onclick="openCart()" class="group relative p-3 rounded-2xl glass hover:bg-white/10 transition-all duration-300">
-                    <i data-lucide="shopping-bag" class="w-5 h-5 text-white/80 group-hover:scale-110 transition-transform"></i>
-                    <span id="cartBadge" class="hidden absolute -top-1.5 -right-1.5 w-5 h-5 badge-neon text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-black">0</span>
+                <button onclick="openCart()" class="group relative p-2 md:p-3 rounded-2xl glass hover:bg-white/10 transition-all duration-300">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 md:w-5 md:h-5 text-white/80 group-hover:scale-110 transition-transform"></i>
+                    <span id="cartBadge" class="hidden absolute -top-1.5 -right-1.5 w-4 h-4 md:w-5 md:h-5 badge-neon text-[8px] md:text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-black">0</span>
                 </button>
             </div>
         </div>
     </header>
 
     <!-- MAIN -->
-    <main class="relative z-10 pt-40 pb-28 px-6 max-w-7xl mx-auto">
+    <main class="relative z-10 pt-40 pb-28 px-4 md:px-6 max-w-7xl mx-auto">
         <div id="categoriesView">
-            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto"></div>
+            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-2xl mx-auto"></div>
         </div>
 
         <div id="productsView" class="hidden">
-            <button onclick="goBack()" class="flex items-center gap-2 glass px-5 py-2.5 rounded-2xl text-xs font-medium tracking-wide uppercase mb-10 hover:bg-white/10 transition-colors">
+            <button onclick="goBack()" class="flex items-center gap-2 glass px-4 md:px-5 py-2 rounded-2xl text-xs font-medium tracking-wide uppercase mb-6 md:mb-10 hover:bg-white/10 transition-colors">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Volver
             </button>
             <div id="productsContent"></div>
         </div>
     </main>
 
-    <!-- CARRITO -->
+    <!-- CARRITO (sin cambios) -->
     <div id="cartOverlay" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500" onclick="closeCart()"></div>
 
     <div id="cartPanel" class="fixed top-0 right-0 bottom-0 z-[70] w-full max-w-md cart-panel closed bg-zinc-950/95 backdrop-blur-3xl border-l border-white/10 flex flex-col shadow-2xl">
-        <div class="flex justify-between items-center px-8 py-8">
+        <div class="flex justify-between items-center px-4 md:px-8 py-6 md:py-8">
             <div>
-                <h2 class="text-2xl font-light tracking-tight text-white">Tu <span class="font-bold text-neon-green">Pedido</span></h2>
+                <h2 class="text-xl md:text-2xl font-light tracking-tight text-white">Tu <span class="font-bold text-neon-green">Pedido</span></h2>
                 <p class="text-xs text-zinc-500 mt-1 uppercase tracking-widest" id="cartCount">(0 envases)</p>
             </div>
-            <button onclick="closeCart()" class="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-all">
+            <button onclick="closeCart()" class="p-2 md:p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-all">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto px-8 space-y-4" id="cartItems"></div>
+        <div class="flex-1 overflow-y-auto px-4 md:px-8 space-y-4" id="cartItems"></div>
 
-        <div id="cartEmpty" class="flex-1 flex flex-col items-center justify-center text-center p-12">
-            <div class="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center mb-6">
-                <i data-lucide="shopping-cart" class="w-8 h-8 text-zinc-700"></i>
+        <div id="cartEmpty" class="flex-1 flex flex-col items-center justify-center text-center p-8 md:p-12">
+            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-zinc-900 flex items-center justify-center mb-4 md:mb-6">
+                <i data-lucide="shopping-cart" class="w-6 h-6 md:w-8 md:h-8 text-zinc-700"></i>
             </div>
             <p class="text-zinc-500 font-medium">Carrito vacío</p>
             <p class="text-zinc-600 text-xs mt-2">Agrega colores (múltiplos de 3 envases)</p>
         </div>
 
-        <div id="cartFooter" class="hidden border-t border-white/5 p-8 bg-black/40">
-            <div id="cartSummaryLines" class="flex flex-wrap gap-2 mb-6"></div>
+        <div id="cartFooter" class="hidden border-t border-white/5 p-4 md:p-8 bg-black/40">
+            <div id="cartSummaryLines" class="flex flex-wrap gap-2 mb-4 md:mb-6"></div>
             <div class="space-y-3">
-                <button onclick="sendWhatsApp()" class="w-full btn-whatsapp py-4 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3">
-                    <i data-lucide="message-circle" class="w-5 h-5"></i> Enviar por WhatsApp
+                <button onclick="sendWhatsApp()" class="w-full btn-whatsapp py-3 md:py-4 rounded-2xl font-bold text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2 md:gap-3">
+                    <i data-lucide="message-circle" class="w-4 h-4 md:w-5 md:h-5"></i> Enviar por WhatsApp
                 </button>
-                <button onclick="openClearModal()" class="w-full py-4 rounded-xl text-sm md:text-base font-bold uppercase tracking-wider text-zinc-500 hover:text-[var(--color-primary)] transition-colors">
+                <button onclick="openClearModal()" class="w-full py-3 md:py-4 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider text-zinc-500 hover:text-[var(--color-primary)] transition-colors">
                     Vaciar Carrito
                 </button>
             </div>
@@ -100,17 +104,17 @@
     <!-- MODAL -->
     <div id="clearModal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeClearModal()"></div>
-        <div class="relative bg-zinc-900/90 border border-[var(--color-primary)]/30 rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl shadow-[var(--color-primary)]/10 transform scale-95 transition-transform duration-300 modal-card">
+        <div class="relative bg-zinc-900/90 border border-[var(--color-primary)]/30 rounded-3xl p-6 md:p-8 max-w-sm w-full mx-4 shadow-2xl shadow-[var(--color-primary)]/10 transform scale-95 transition-transform duration-300 modal-card">
             <div class="text-center">
-                <div class="w-16 h-16 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-5">
-                    <i data-lucide="alert-triangle" class="w-8 h-8 text-[var(--color-primary)]"></i>
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-4 md:mb-5">
+                    <i data-lucide="alert-triangle" class="w-6 h-6 md:w-8 md:h-8 text-[var(--color-primary)]"></i>
                 </div>
-                <h3 class="text-xl font-bold text-white tracking-tight mb-2">¿Vaciar todo el carrito?</h3>
-                <p class="text-zinc-400 text-sm leading-relaxed">Esta acción eliminará todos los productos de tu pedido. ¿Estás seguro?</p>
+                <h3 class="text-lg md:text-xl font-bold text-white tracking-tight mb-2">¿Vaciar todo el carrito?</h3>
+                <p class="text-zinc-400 text-xs md:text-sm leading-relaxed">Esta acción eliminará todos los productos de tu pedido. ¿Estás seguro?</p>
             </div>
-            <div class="flex gap-3 mt-8">
-                <button onclick="closeClearModal()" class="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 font-medium text-sm transition-colors">Cancelar</button>
-                <button onclick="confirmClearCart()" class="flex-1 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-black font-bold text-sm transition-all shadow-lg shadow-[var(--color-primary)]/30 hover:shadow-[var(--color-secondary)]/40">Sí, vaciar</button>
+            <div class="flex gap-3 mt-6 md:mt-8">
+                <button onclick="closeClearModal()" class="flex-1 py-2.5 md:py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 font-medium text-xs md:text-sm transition-colors">Cancelar</button>
+                <button onclick="confirmClearCart()" class="flex-1 py-2.5 md:py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-black font-bold text-xs md:text-sm transition-all shadow-lg shadow-[var(--color-primary)]/30 hover:shadow-[var(--color-secondary)]/40">Sí, vaciar</button>
             </div>
         </div>
     </div>
@@ -120,13 +124,17 @@
         function goToMainSite() {
             window.location.href = "https://jjrb47.github.io/JJRB47/";
         }
+
         // Ajuste dinámico del padding del body según altura del header
         function adjustHeaderPadding() {
             const header = document.querySelector('header');
             if (header) {
                 const altura = header.offsetHeight;
                 document.body.style.paddingTop = altura + 'px';
-                document.querySelector('main').style.minHeight = `calc(100vh - ${altura}px)`;
+                const main = document.querySelector('main');
+                if (main) {
+                    main.style.minHeight = `calc(100vh - ${altura}px)`;
+                }
             }
         }
         document.addEventListener('DOMContentLoaded', adjustHeaderPadding);
